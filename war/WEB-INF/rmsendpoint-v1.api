@@ -1,0 +1,548 @@
+{
+  "extends" : "thirdParty.api",
+  "abstract" : false,
+  "root" : "https://ridemyspotapi.appspot.com/_ah/api",
+  "name" : "rmsendpoint",
+  "version" : "v1",
+  "description" : "API of RideMySpot including spots and comments",
+  "defaultVersion" : false,
+  "adapter" : {
+    "bns" : "https://ridemyspotapi.appspot.com/_ah/spi",
+    "deadline" : 65.0,
+    "type" : "lily"
+  },
+  "auth" : {
+    "allowCookieAuth" : false
+  },
+  "frontendLimits" : {
+    "unregisteredUserQps" : -1,
+    "unregisteredQps" : -1,
+    "unregisteredDaily" : -1,
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+    "type" : "no-cache",
+    "maxAge" : 0
+  },
+  "ownerDomain" : "w3m.com",
+  "ownerName" : "w3m.com",
+  "packagePath" : "api.ridemyspot.entity",
+  "methods" : {
+    "rmsendpoint.updateComments" : {
+      "path" : "comments",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.updateComments",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.listSpots" : {
+      "path" : "spots",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.listSpots",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.updateSpots" : {
+      "path" : "spots",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.updateSpots",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.listComments" : {
+      "path" : "comments",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.listComments",
+      "request" : {
+        "parameters" : {
+          "pidSpot" : {
+            "type" : "int64",
+            "required" : false
+          },
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.insertUsers" : {
+      "path" : "users",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.insertUsers",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.insertSpots" : {
+      "path" : "spots",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.insertSpots",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.removeSpots" : {
+      "path" : "spots/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.removeSpots",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "rmsendpoint.insertComments" : {
+      "path" : "comments",
+      "httpMethod" : "POST",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.insertComments",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.removeComments" : {
+      "path" : "comments/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.removeComments",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "rmsendpoint.updateUsers" : {
+      "path" : "users",
+      "httpMethod" : "PUT",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.updateUsers",
+      "request" : {
+        "body" : "autoTemplate(backendRequest)",
+        "bodyName" : "resource"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.getComments" : {
+      "path" : "comments/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.getComments",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.getSpots" : {
+      "path" : "spots/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.getSpots",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.removeUsers" : {
+      "path" : "users/{id}",
+      "httpMethod" : "DELETE",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.removeUsers",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "rmsendpoint.getUsers" : {
+      "path" : "users/{id}",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.getUsers",
+      "request" : {
+        "parameters" : {
+          "id" : {
+            "type" : "int64",
+            "required" : true
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "rmsendpoint.listUsers" : {
+      "path" : "users",
+      "httpMethod" : "GET",
+      "authLevel" : "NONE",
+      "scopes" : [ "https://www.googleapis.com/auth/userinfo.email" ],
+      "audiences" : [ ],
+      "clientIds" : [ "292824132082.apps.googleusercontent.com" ],
+      "rosyMethod" : "com.w3m.api.ridemyspot.service.rmsService.listUsers",
+      "request" : {
+        "parameters" : {
+          "cursor" : {
+            "type" : "string",
+            "required" : false
+          },
+          "limit" : {
+            "type" : "int32",
+            "required" : false
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "Comments" : {
+        "id" : "Comments",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "idUser" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "idSpot" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "text" : {
+            "type" : "string"
+          },
+          "note" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "user" : {
+            "type" : "string"
+          }
+        }
+      },
+      "CollectionResponse_Spots" : {
+        "id" : "CollectionResponse_Spots",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Spots"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Spots" : {
+        "id" : "Spots",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "integer"
+          },
+          "averageNote" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "totalNote" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "nbNote" : {
+            "type" : "integer"
+          },
+          "latitude" : {
+            "type" : "number"
+          },
+          "longitude" : {
+            "type" : "number"
+          }
+        }
+      },
+      "CollectionResponse_Comments" : {
+        "id" : "CollectionResponse_Comments",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Comments"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Users" : {
+        "id" : "Users",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "integer"
+          },
+          "adress" : {
+            "type" : "string"
+          }
+        }
+      },
+      "CollectionResponse_Users" : {
+        "id" : "CollectionResponse_Users",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Users"
+            }
+          },
+          "nextPageToken" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "com.w3m.api.ridemyspot.service.rmsService.updateComments" : {
+        "request" : {
+          "$ref" : "Comments"
+        },
+        "response" : {
+          "$ref" : "Comments"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.listSpots" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Spots"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.updateSpots" : {
+        "request" : {
+          "$ref" : "Spots"
+        },
+        "response" : {
+          "$ref" : "Spots"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.listComments" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Comments"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.insertUsers" : {
+        "request" : {
+          "$ref" : "Users"
+        },
+        "response" : {
+          "$ref" : "Users"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.insertSpots" : {
+        "request" : {
+          "$ref" : "Spots"
+        },
+        "response" : {
+          "$ref" : "Spots"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.removeSpots" : {
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.insertComments" : {
+        "request" : {
+          "$ref" : "Comments"
+        },
+        "response" : {
+          "$ref" : "Comments"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.removeComments" : {
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.updateUsers" : {
+        "request" : {
+          "$ref" : "Users"
+        },
+        "response" : {
+          "$ref" : "Users"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.getComments" : {
+        "response" : {
+          "$ref" : "Comments"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.getSpots" : {
+        "response" : {
+          "$ref" : "Spots"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.removeUsers" : {
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.getUsers" : {
+        "response" : {
+          "$ref" : "Users"
+        }
+      },
+      "com.w3m.api.ridemyspot.service.rmsService.listUsers" : {
+        "response" : {
+          "$ref" : "CollectionResponse_Users"
+        }
+      }
+    }
+  }
+}
