@@ -16,6 +16,8 @@ public class Spots {
 	@Persistent
 	String name;
 	@Persistent
+	String description;
+	@Persistent
 	int type;
 	@Persistent
 	float averageNote;
@@ -42,6 +44,14 @@ public class Spots {
 
 	public void setName(String name){
 		this.name = name;
+	}
+	
+	public String getDescription(){
+		return description;
+	}
+
+	public void setDescription(String description){
+		this.description = description;
 	}
 	
 	public int getType(){
