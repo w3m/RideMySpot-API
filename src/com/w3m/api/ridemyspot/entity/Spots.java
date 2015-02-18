@@ -14,13 +14,15 @@ public class Spots {
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	Long id;
 	@Persistent
+	Long idUser;
+	@Persistent
 	String name;
 	@Persistent
 	String description;
 	@Persistent
 	int type;
 	@Persistent
-	float averageNote;
+	int score;
 	@Persistent
 	float totalNote;
 	@Persistent
@@ -29,13 +31,25 @@ public class Spots {
 	double latitude;
 	@Persistent
 	double longitude;
-	
+	@NotPersistent
+	boolean favorite = false;
+	@NotPersistent
+	boolean hasScore = false;
+
 	public Long getId() {
 		return id;
 	}
 	  
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public Long getIdUser() {
+		return idUser;
+	}
+	  
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
 	
 	public String getName(){
@@ -62,12 +76,20 @@ public class Spots {
 		this.type = type;
 	}
 	
-	public float getAverageNote(){
-		return averageNote;
+	public int getScore(){
+		return score;
+	}
+
+	public void setScore(int score){
+		this.score = score;
 	}
 	
-	private void setAverageNote(float averageNote){
-		this.averageNote = averageNote;
+	public void voteScore(boolean score){
+		if(score){
+			this.score++;
+		} else {
+			this.score--;
+		}
 	}
 	
 	public float getTotalNote(){
@@ -105,7 +127,22 @@ public class Spots {
 	public void addNote(float note){
 		totalNote += note;
 		nbNote += 1;
-		setAverageNote(totalNote/nbNote);
+	}
+	
+	public void setFavorite(boolean favorite){
+		this.favorite = favorite;
+	}
+	
+	public boolean isFavorite(){
+		return favorite;
+	}
+	
+	public void setHasScore(boolean hasScore){
+		this.hasScore = hasScore;
+	}
+	
+	public boolean isHasScore(){
+		return hasScore;
 	}
 	
 }

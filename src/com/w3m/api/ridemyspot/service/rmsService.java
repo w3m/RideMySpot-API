@@ -1,5 +1,6 @@
 package com.w3m.api.ridemyspot.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,9 +26,10 @@ import com.w3m.api.ridemyspot.entity.Users;
 public class rmsService {
 
 	
-	@SuppressWarnings({ "unchecked", "unused" })
+	@SuppressWarnings({ "unchecked"})
 	@ApiMethod(name = "listSpots")
 	public CollectionResponse<Spots> listSpots(
+			@Nullable @Named("pIdUser") Long idUser,
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
@@ -56,8 +58,16 @@ public class rmsService {
 
 			// Tight loop for fetching all entities from datastore and accomodate
 			// for lazy fetch.
-			for (Spots obj : execute)
-				;
+			if(idUser != null){
+				ArrayList<String> listFavorite = getUsers(idUser).getFavorite();
+				ArrayList<String> listScore = getUsers(idUser).getVote();
+				for (Spots obj : execute){
+					if(listFavorite.contains(obj.getId().toString()))
+						obj.setFavorite(true);
+					if(listScore.contains(obj.getId().toString()))
+						obj.setHasScore(true);
+				}
+			}
 		} finally {
 			mgr.close();
 		}
@@ -102,6 +112,8 @@ public class rmsService {
 					throw new EntityExistsException("Object already exists");
 				}
 			}
+			spots.setScore(0);
+			spots.setNbNote(1);
 			mgr.makePersistent(spots);
 		} finally {
 			mgr.close();
@@ -147,6 +159,24 @@ public class rmsService {
 			mgr.close();
 		}
 	}
+	
+
+	@ApiMethod(name = "addScore")
+	public void addScore(@Named("idSpot") Long idSpot, @Named("idUser") String idUser, @Named("score") boolean score) {
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			Spots spot = getSpots(idSpot);
+			Users user = getUsers(Long.parseLong(idUser));
+			if(!user.getVote().contains(idSpot.toString())){
+				spot.voteScore(score);
+				updateSpots(spot);
+				user.addVote(idSpot.toString());
+				updateUsers(user);
+			}
+		} finally {
+			mgr.close();
+		}
+	}
 
 	private boolean containsSpots(Spots spots) {
 		PersistenceManager mgr = getPersistenceManager();
@@ -174,12 +204,15 @@ public class rmsService {
 	@SuppressWarnings({ "unchecked", "unused" })
 	@ApiMethod(name = "listUsers")
 	public CollectionResponse<Users> listUsers(
+			@Nullable @Named("pAdress") String adress,
+			@Nullable @Named("pType") String type,
 			@Nullable @Named("cursor") String cursorString,
 			@Nullable @Named("limit") Integer limit) {
 
 		PersistenceManager mgr = null;
 		Cursor cursor = null;
 		List<Users> execute = null;
+		Object filter = null;
 
 		try {
 			mgr = getPersistenceManager();
@@ -194,8 +227,20 @@ public class rmsService {
 			if (limit != null) {
 				query.setRange(0, limit);
 			}
+			
+			if (adress != null){
+				query.setFilter("adress == pAdress");
+      			query.declareParameters("String pAdress");
+      			filter = adress;
+			}
+			
+			if (type != null){
+				query.setFilter("type == pType");
+      			query.declareParameters("String pType");
+      			filter = type;
+			}
 
-			execute = (List<Users>) query.execute();
+			execute = (List<Users>) query.execute(filter);
 			cursor = JDOCursorHelper.getCursor(execute);
 			if (cursor != null)
 				cursorString = cursor.toWebSafeString();
@@ -254,6 +299,7 @@ public class rmsService {
 		return users;
 	}
 
+	
 	/**
 	 * This method is used for updating an existing entity. If the entity does not
 	 * exist in the datastore, an exception is thrown.
@@ -284,17 +330,45 @@ public class rmsService {
 	 */
 	@ApiMethod(name = "removeUsers")
 	public void removeUsers(@Named("id") Long id) {
-		//TODO supress comment for this user too!
-		
 		PersistenceManager mgr = getPersistenceManager();
 		try {
 			Users users = mgr.getObjectById(Users.class, id);
+			List<Comments> listComment = (List<Comments>) listComments(null, id, null, null).getItems();
+			for(Comments comment : listComment){
+				removeComments(comment.getId());
+			}
 			mgr.deletePersistent(users);
 		} finally {
 			mgr.close();
 		}
 	}
+	
+	@ApiMethod(name = "addFavorite")
+	public void addFavorite(@Named("idUser") Long idUser, @Named("idSpot") String idSpot){
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			Users users = getUsers(idUser);
+			users.addFavorite(idSpot);
+		    updateUsers(users);
+		} finally {
+			mgr.close();
+		}
+	}
+	
+	@ApiMethod(name = "removeFavorite")
+	public void removeFavorite(@Named("idUser") Long idUser, @Named("idSpot") String idSpot){
+		PersistenceManager mgr = getPersistenceManager();
+		try {
+			Users users = getUsers(idUser);
+			users.removeFavorite(idSpot);
+		    updateUsers(users);
+		} finally {
+			mgr.close();
+		}
+	}
 
+	
+	
 	private boolean containsUsers(Users users) {
 		PersistenceManager mgr = getPersistenceManager();
 		boolean contains = true;
@@ -317,16 +391,18 @@ public class rmsService {
 	   * @return A CollectionResponse class containing the list of all entities
 	   * persisted and a cursor to the next page.
 	   */
-	  @SuppressWarnings({"unchecked", "unused"})
+	  @SuppressWarnings({"unchecked"})
 	  @ApiMethod(name = "listComments")
 	  public CollectionResponse<Comments> listComments(
-		@Nullable @Named("pidSpot") Long idSpot,
+		@Nullable @Named("pIdSpot") Long idSpot,
+		@Nullable @Named("pIdUser") Long idUser,
 	    @Nullable @Named("cursor") String cursorString,
 	    @Nullable @Named("limit") Integer limit) {
 
 	    PersistenceManager mgr = null;
 	    Cursor cursor = null;
 	    List<Comments> execute = null;
+	    Object filter = null;
 
 	    try{
 	      mgr = getPersistenceManager();
@@ -341,13 +417,20 @@ public class rmsService {
 	      if (limit != null) {
 	        query.setRange(0, limit);
 	      }
-	      
+
 	      if (idSpot != null){
 		      query.setFilter("idSpot == pIdSpot");
 		      query.declareParameters("Long pIdSpot");
+		      filter = idSpot;
+	      }
+
+	      if (idUser != null){
+		      query.setFilter("idUser == pIdUser");
+		      query.declareParameters("Long pIdUser");
+		      filter = idUser;
 	      }
 		      
-	      execute = (List<Comments>) query.execute(idSpot);
+	      execute = (List<Comments>) query.execute(filter);
 	      cursor = JDOCursorHelper.getCursor(execute);
 	      if (cursor != null) cursorString = cursor.toWebSafeString();
 
