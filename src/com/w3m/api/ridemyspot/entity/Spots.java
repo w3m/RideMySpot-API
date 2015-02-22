@@ -108,4 +108,10 @@ public class Spots {
 		setAverageNote(totalNote/nbNote);
 	}
 	
+	public void removeNote(float note){
+		totalNote -= note;
+		nbNote -= 1;
+		setAverageNote(totalNote/nbNote);
+	}
+	
 }
